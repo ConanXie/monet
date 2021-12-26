@@ -1,0 +1,13 @@
+:root {
+  /* --color-foreground: hsl(0, 0%, 100%);
+  --color-background: hsl(0, 0%, 7%);
+  --color-links: hsl(213, 100%, 73%);
+  --color-links-hover: hsl(213, 100%, 80%);
+  --color-border: hsl(0, 0%, 25%); */
+  --color-foreground: var(--neutral1-100);
+  --color-background: var(--neutral1-900);
+  --color-links: var(--accent1-300);
+  --color-links-hover: var(--accent1-200);
+  --color-links-active-bg: var(--accent1-700);
+  --color-border: var(--neutral1-800);
+}

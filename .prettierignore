@@ -1,0 +1,6 @@
+dist/
+temp/
+packages/*/CHANGELOG.md
+LICENSE.md
+.prettierignore
+pnpm-lock.yaml

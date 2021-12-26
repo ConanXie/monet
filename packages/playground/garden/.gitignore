@@ -1,0 +1,8 @@
+node_modules
+
+/.cache
+/build
+/public/build
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

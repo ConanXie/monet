@@ -1,0 +1,33 @@
+{
+  "name": "@monet/palette",
+  "version": "0.0.1-alpha.1",
+  "author": "ConanXie",
+  "license": "MIT",
+  "description": "Get a palette from image quantization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConanXie/monet.git",
+    "directory": "packages/palette"
+  },
+  "bugs": {
+    "url": "https://github.com/ConanXie/monet/issues"
+  },
+  "homepage": "https://github.com/ConanXie/monet/tree/main/#readme",
+  "scripts": {
+    "dev": "rimraf dist && run-s build-bundle copy-files && tsc --watch",
+    "build": "rimraf dist && npm run lint && run-s build-bundle build-types copy-files && api-extractor run",
+    "build1": "rimraf dist && npm run lint && run-s build-bundle",
+    "build-bundle": "rollup -c ../../rollup.config.js --environment UMD_NAME:MonetPalette",
+    "build-types": "tsc",
+    "lint": "eslint --ext .ts src/**",
+    "copy-files": "esr ../../scripts/copy-files.ts",
+    "format": "prettier --write --parser typescript \"src/**/*.ts\"",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path ."
+  },
+  "peerDependencies": {
+    "@monet/quantize": "^0.0.1-alpha.1",
+    "@monet/tools": "^0.0.1-alpha.1"
+  }
+}
