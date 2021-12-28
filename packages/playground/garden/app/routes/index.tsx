@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import type { LinksFunction } from "remix"
 
@@ -95,24 +95,12 @@ export default function Index() {
     const last = current - 1
     const next = current + 1
     const offsets = offsetTopList.current
-    // console.log(
-    //   "centerLine",
-    //   centerLine,
-    //   offsetTopList,
-    //   "current",
-    //   current,
-    //   "next",
-    //   offsets[next],
-    //   "last",
-    //   offsets[last],
-    // )
     if (direction == 1 && centerLine > offsets[next]) {
       currentIndex.current = next
     } else if (direction == -1 && centerLine < offsets[current]) {
       currentIndex.current = last
     }
     if (current != currentIndex.current) {
-      console.log(currentIndex.current)
       const color = dominantContainers[currentIndex.current]?.dataset.color
       if (color) {
         theme?.changeTheme(color)
@@ -138,16 +126,15 @@ export default function Index() {
       dominantContainers.forEach((e) => {
         offsets.push(e.offsetTop)
       })
-      console.log(offsets)
       offsetTopList.current = offsets
     }, 200)
   }, [images])
 
   return (
     <div className="dominant">
-      <h1>Dominant of an image</h1>
+      <h1>Palette of an image</h1>
       <div ref={dropRef} className={clsx("drop-area", { "drag-in": dragIn })}>
-        <h2>{dragIn ? "drop it" : "drag an image here"}</h2>
+        <h2>{dragIn ? "Drop it" : "Drag an image here"}</h2>
       </div>
       {images.map(({ image, t }) => (
         <ImageDominant key={t} src={image} />

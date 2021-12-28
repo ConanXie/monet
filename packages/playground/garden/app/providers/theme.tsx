@@ -59,17 +59,15 @@ export const ThemeProvider: FC = (props) => {
 
   const value: ThemeContextType = {
     changeTheme(color: Color) {
-      console.log("color", color)
+      console.log(`%ctheme color: ${color}`, `color:${color}`)
 
-      console.time("color scheme")
+      console.time("create color scheme")
       const scheme = createColorScheme(color)
-      console.timeEnd("color scheme")
+      console.timeEnd("create color scheme")
 
       setTheme({ scheme })
     },
   }
-
-  console.log("value", value)
 
   return (
     <ThemeContext.Provider value={value}>

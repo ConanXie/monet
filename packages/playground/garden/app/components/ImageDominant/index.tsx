@@ -3,6 +3,7 @@ import { ColorPalette } from "../ColorPalette"
 import { cond } from "@monet/theme"
 import { getPalette } from "@monet/palette"
 import { useTheme } from "~/providers/theme"
+import clsx from "clsx"
 
 type Props = {
   src: string
@@ -11,17 +12,18 @@ type Props = {
 export const ImageDominant: FC<Props> = (props) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
+  const [activeColor, setActiveColor] = useState<string>("")
 
   const [quantizationColors, setQuantizationColors] = useState<string[]>([])
 
   const theme = useTheme()
 
   function quantizeImage(img: HTMLImageElement) {
-    console.time("quantizeImage")
+    console.time("quantize image")
     const colors = getPalette(img, cond)
-    console.timeEnd("quantizeImage")
+    console.timeEnd("quantize image")
     setQuantizationColors(colors)
-    setTheme(colors)
+    setActiveColor(colors[0])
   }
 
   useEffect(() => {
@@ -32,10 +34,15 @@ export const ImageDominant: FC<Props> = (props) => {
     }
   }, [])
 
-  function setTheme(colors: string[]) {
-    const mainColor = colors[0]
-    theme?.changeTheme(mainColor)
-    containerRef.current!.dataset.color = mainColor
+  useEffect(() => {
+    if (activeColor) {
+      setTheme(activeColor)
+    }
+  }, [activeColor])
+
+  function setTheme(color: string) {
+    theme?.changeTheme(color)
+    containerRef.current!.dataset.color = color
   }
 
   return (
@@ -45,35 +52,34 @@ export const ImageDominant: FC<Props> = (props) => {
         <>
           <div className="dominant-color">
             <div>
-              <h2>Dominant Color</h2>
-              <div
-                style={{
-                  backgroundColor: quantizationColors[0],
-                }}
-              ></div>
-            </div>
-            <div>
               <h2>Palette</h2>
-              {quantizationColors.map((color, index) => (
-                <div
-                  style={{ display: "inline-flex", flexDirection: "column" }}
-                  key={color}
-                >
-                  <span style={{ textAlign: "center", paddingRight: 4 }}>
-                    {index}
-                  </span>
-                  <div className="color-item">
+              <div>
+                {quantizationColors.map((color) => (
+                  <div
+                    className={clsx([
+                      "color-item",
+                      { active: activeColor == color },
+                    ])}
+                    role="button"
+                    onClick={() => setActiveColor(color)}
+                    key={color}
+                  >
                     <span
                       style={{
                         backgroundColor: color,
                       }}
                     ></span>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-          <ColorPalette color={quantizationColors[0]} />
+          {activeColor && (
+            <>
+              <h3>Color Sheme</h3>
+              <ColorPalette color={activeColor} />
+            </>
+          )}
         </>
       )}
     </div>

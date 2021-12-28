@@ -10,4 +10,5 @@
   --color-links-hover: var(--accent1-200);
   --color-links-active-bg: var(--accent1-700);
   --color-border: var(--neutral1-800);
+  --palette-active: var(--accent1-700);
 }

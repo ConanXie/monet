@@ -3,7 +3,7 @@
   height: 300px;
   margin-bottom: 16px;
   border: 2px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,8 +16,9 @@
 .dominant-container {
   width: 650px;
   margin: 16px 0;
+  padding-bottom: 16px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
 }
 
@@ -31,35 +32,45 @@
   padding: 16px;
 }
 
-.dominant-color > div:first-child {
-  margin-right: 36px;
-}
-.dominant-color > div:last-child {
-  flex: 1;
-}
-
-.dominant-color > div:first-child > div {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-}
-
 .color-item {
+  position: relative;
   display: inline-block;
-  margin-right: 4px;
+  margin: 0 16px 16px 0;
+  line-height: 0;
+}
+
+.color-item::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 95%;
+  height: 95%;
+  border: 1px solid var(--palette-active);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: var(--transition);
+}
+
+.color-item.active::before {
+  width: 120%;
+  height: 120%;
+}
+
+.color-item:active {
+  transform: scale(0.98);
 }
 
 .color-item span {
+  position: relative;
   display: inline-block;
   width: 48px;
   height: 48px;
   border-radius: 50%;
 }
 
-.prominent-color .color-item {
-  width: 30%;
-}
-
+.dominant-container h3,
 .dominant-container .color-palette-container {
   padding: 0 16px;
 }

@@ -12,17 +12,18 @@ export const ColorPalette: FC<Props> = (props) => {
   const [colorScheme, setColorScheme] = useState<DynamicColorScheme>()
 
   useEffect(() => {
-    console.time("color scheme")
     const scheme = createColorScheme(props.color)
-    console.timeEnd("color scheme")
     setColorScheme(scheme)
-  }, [])
+  }, [props.color])
 
-  const colorHex = useMemo(function () {
-    const color = new Srgb(props.color).toHex()
+  const colorHex = useMemo(
+    function () {
+      const color = new Srgb(props.color).toHex()
 
-    return color
-  }, [])
+      return color
+    },
+    [props.color],
+  )
 
   return (
     <div className="color-palette-container">
@@ -48,7 +49,7 @@ export const ColorPalette: FC<Props> = (props) => {
                 {tones.map((key) => {
                   const color = colorScheme.accent1.get(key)
                   return (
-                    <td key={color}>
+                    <td key={`a-1-${key}`}>
                       <div
                         className="color-ball"
                         style={{ background: color }}
@@ -62,7 +63,7 @@ export const ColorPalette: FC<Props> = (props) => {
                 {tones.map((key) => {
                   const color = colorScheme.accent2.get(key)
                   return (
-                    <td key={color}>
+                    <td key={`a-2-${key}`}>
                       <div
                         className="color-ball"
                         style={{ background: color }}
@@ -76,7 +77,7 @@ export const ColorPalette: FC<Props> = (props) => {
                 {tones.map((key) => {
                   const color = colorScheme.accent3.get(key)
                   return (
-                    <td key={color}>
+                    <td key={`a-3-${key}`}>
                       <div
                         className="color-ball"
                         style={{ background: color }}
@@ -90,7 +91,7 @@ export const ColorPalette: FC<Props> = (props) => {
                 {tones.map((key) => {
                   const color = colorScheme.neutral1.get(key)
                   return (
-                    <td key={color}>
+                    <td key={`n-1-${key}`}>
                       <div
                         className="color-ball"
                         style={{ background: color }}
@@ -104,7 +105,7 @@ export const ColorPalette: FC<Props> = (props) => {
                 {tones.map((key) => {
                   const color = colorScheme.neutral2.get(key)
                   return (
-                    <td key={color}>
+                    <td key={`n-2-${key}`}>
                       <div
                         className="color-ball"
                         style={{ background: color }}
