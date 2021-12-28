@@ -1,6 +1,6 @@
-import { QuantizerCelebi } from "@monet/quantize"
-import { ViewingConditions } from "@monet/tools/cam/Zcam"
-import { Srgb } from "@monet/tools/rgb/Srgb"
+import { QuantizerCelebi } from "@monet-color/quantize"
+import { ViewingConditions } from "@monet-color/tools/cam/Zcam"
+import { Srgb } from "@monet-color/tools/rgb/Srgb"
 import { Score } from "./score"
 
 /** limit max size of canvas */

@@ -1,6 +1,6 @@
-import { ViewingConditions, Zcam } from "@monet/tools/cam/Zcam"
-import { Srgb } from "@monet/tools/rgb/Srgb"
-import { CieLab } from "@monet/tools/lab/CieLab"
+import { ViewingConditions, Zcam } from "@monet-color/tools/cam/Zcam"
+import { Srgb } from "@monet-color/tools/rgb/Srgb"
+import { CieLab } from "@monet-color/tools/lab/CieLab"
 import { ColorScheme, ColorSwatch } from "./ColorScheme"
 
 const LIGHTNESS: readonly [number, number][] = [

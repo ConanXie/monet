@@ -2,12 +2,12 @@ import {
   ViewingConditions,
   Zcam,
   SURROUND_AVERAGE,
-} from "@monet/tools/cam/Zcam"
-import { Srgb, Color } from "@monet/tools/rgb/Srgb"
-import { LinearSrgb } from "@monet/tools/rgb/LinearRgb"
-import { CieLab } from "@monet/tools/lab/CieLab"
-import { ClipMethod } from "@monet/tools/gamut/LchGamut"
-import { Illuminants } from "@monet/tools/data/Illuminants"
+} from "@monet-color/tools/cam/Zcam"
+import { Srgb, Color } from "@monet-color/tools/rgb/Srgb"
+import { LinearSrgb } from "@monet-color/tools/rgb/LinearRgb"
+import { CieLab } from "@monet-color/tools/lab/CieLab"
+import { ClipMethod } from "@monet-color/tools/gamut/LchGamut"
+import { Illuminants } from "@monet-color/tools/data/Illuminants"
 import { ColorScheme, ColorSwatch } from "./ColorScheme"
 import { MaterialYouTargets } from "./MaterialYouTargets"
 

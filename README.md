@@ -1,4 +1,4 @@
-# Monet
+# Monet Color
 
 TypeScript implementation of Android 12 Material You dynamic theme engine (named **Monet**).
 

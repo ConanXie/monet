@@ -75,8 +75,10 @@ async function run() {
 
     await Promise.all(
       [
-        // use enhanced readme from workspace root for `@monet/theme`
-        packageData.name === "@monet/theme" ? "../../README.md" : "./README.md",
+        // use enhanced readme from workspace root for `@monet-color/theme`
+        packageData.name === "@monet-color/theme"
+          ? "../../README.md"
+          : "./README.md",
         "../../CHANGELOG.md",
         "../../LICENSE",
       ].map((file) => includeFileInBuild(file)),

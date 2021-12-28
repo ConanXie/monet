@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react"
 import { ColorPalette } from "../ColorPalette"
-import { cond } from "@monet/theme"
-import { getPalette } from "@monet/palette"
+import { cond } from "@monet-color/theme"
+import { getPalette } from "@monet-color/palette"
 import { useTheme } from "~/providers/theme"
 import clsx from "clsx"
 

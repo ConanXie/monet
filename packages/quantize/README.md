@@ -1,1 +1,1 @@
-# @monet/quantize
+# @monet-color/quantize

@@ -1,5 +1,5 @@
-import { createColorScheme, DynamicColorScheme } from "@monet/theme"
-import { Color } from "@monet/tools/rgb/Srgb"
+import { createColorScheme, DynamicColorScheme } from "@monet-color/theme"
+import { Color } from "@monet-color/tools/rgb/Srgb"
 import { useContext, createContext, FC, useState, useEffect } from "react"
 
 export interface Theme {

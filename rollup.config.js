@@ -8,10 +8,10 @@ import { terser } from "rollup-plugin-terser"
 const config = {
   input: "src/index.ts",
   external: [
-    "@monet/tools",
-    "@monet/quantize",
-    "@monet/palette",
-    "@monet/theme",
+    "@monet-color/tools",
+    "@monet-color/quantize",
+    "@monet-color/palette",
+    "@monet-color/theme",
   ],
   output: [
     {

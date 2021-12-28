@@ -1,6 +1,6 @@
 import { FC, useEffect, useMemo, useState } from "react"
-import { createColorScheme, DynamicColorScheme } from "@monet/theme"
-import { Color, Srgb } from "@monet/tools/rgb/Srgb"
+import { createColorScheme, DynamicColorScheme } from "@monet-color/theme"
+import { Color, Srgb } from "@monet-color/tools/rgb/Srgb"
 
 const tones = [0, 10, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 

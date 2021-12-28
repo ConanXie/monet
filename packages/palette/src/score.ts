@@ -1,6 +1,6 @@
-import { differenceDegrees, sanitizeDegrees } from "@monet/tools/math"
-import { Srgb } from "@monet/tools/rgb/Srgb"
-import { ViewingConditions, Zcam } from "@monet/tools/cam/Zcam"
+import { differenceDegrees, sanitizeDegrees } from "@monet-color/tools/math"
+import { Srgb } from "@monet-color/tools/rgb/Srgb"
+import { ViewingConditions, Zcam } from "@monet-color/tools/cam/Zcam"
 
 export class Score {
   // private static readonly TARGET_CHROMA = 48.0;

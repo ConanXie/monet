@@ -10,10 +10,10 @@
     "start": "remix-serve build"
   },
   "dependencies": {
-    "@monet/palette": "link:../../palette/dist",
-    "@monet/theme": "link:../../theme/dist",
-    "@monet/tools": "link:../../tools/dist",
-    "@monet/quantize": "link:../../quantize/dist",
+    "@monet-color/palette": "link:../../palette/dist",
+    "@monet-color/theme": "link:../../theme/dist",
+    "@monet-color/tools": "link:../../tools/dist",
+    "@monet-color/quantize": "link:../../quantize/dist",
     "@remix-run/react": "^1.1.1",
     "@remix-run/serve": "^1.1.1",
     "clsx": "^1.1.1",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^1.1.1",
-    "@types/react": "^17.0.37",
+    "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "typescript": "^4.5.4"
   },

@@ -1,1 +1,1 @@
-# @monet/theme
+# @monet-color/theme
