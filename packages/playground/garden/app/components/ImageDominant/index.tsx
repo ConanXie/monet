@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react"
 import { ColorPalette } from "../ColorPalette"
-import { cond } from "@monet-color/theme"
+import { DEFAULT_VIEWING_CONDITIONS } from "@monet-color/theme"
 import { getPalette } from "@monet-color/palette"
 import { useTheme } from "~/providers/theme"
 import clsx from "clsx"
@@ -20,7 +20,7 @@ export const ImageDominant: FC<Props> = (props) => {
 
   function quantizeImage(img: HTMLImageElement) {
     console.time("quantize image")
-    const colors = getPalette(img, cond)
+    const colors = getPalette(img, DEFAULT_VIEWING_CONDITIONS)
     console.timeEnd("quantize image")
     setQuantizationColors(colors)
     setActiveColor(colors[0])

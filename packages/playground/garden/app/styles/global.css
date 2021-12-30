@@ -115,6 +115,10 @@ html {
   outline-offset: 2px;
 }
 
+input[type="range"] {
+  margin: 0 8px;
+}
+
 html,
 body {
   padding: 0;

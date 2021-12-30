@@ -1,7 +1,26 @@
 .remix-app__main-content {
   width: 100%;
+  max-width: 1500px;
 }
 
 .color-palette-container {
   float: left;
+  margin-right: 16px;
+}
+
+.samples .color-ball {
+  transition: none;
+}
+
+.samples .panel {
+  margin: 16px 16px 16px 0;
+  padding: 0 32px 16px 16px;
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  width: fit-content;
+}
+
+.samples .panel label {
+  display: inline-block;
+  width: 130px;
 }
