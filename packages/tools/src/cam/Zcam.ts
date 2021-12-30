@@ -3,19 +3,6 @@ import { square, toRadians } from "../math"
 import { LinearSrgb } from "../rgb/LinearRgb"
 import { CieXyzAbs } from "../tristimulus/CieXyzAbs"
 
-/**
- * Surround factor for dark viewing conditions.
- */
-export const SURROUND_DARK = 0.525
-/**
- * Surround factor for dim viewing conditions.
- */
-export const SURROUND_DIM = 0.59
-/**
- * Surround factor for average viewing conditions.
- */
-export const SURROUND_AVERAGE = 0.69
-
 // Constants
 const B = 1.15
 const G = 0.66
@@ -72,6 +59,19 @@ export const izToQz = (Iz: number, cond: ViewingConditions) =>
  * model.
  */
 export class ViewingConditions {
+  /**
+   * Surround factor for dark viewing conditions.
+   */
+  static SURROUND_DARK = 0.525
+  /**
+   * Surround factor for dim viewing conditions.
+   */
+  static SURROUND_DIM = 0.59
+  /**
+   * Surround factor for average viewing conditions.
+   */
+  static SURROUND_AVERAGE = 0.69
+
   Iz_coeff: number
   ez_coeff: number
   Qz_denom: number
