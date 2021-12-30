@@ -1,15 +1,9 @@
-import {
-  ViewingConditions,
-  Zcam,
-  SURROUND_AVERAGE,
-} from "@monet-color/tools/cam/Zcam"
+import { ViewingConditions, Zcam } from "@monet-color/tools/cam/Zcam"
 import { Srgb, Color } from "@monet-color/tools/rgb/Srgb"
 import { LinearSrgb } from "@monet-color/tools/rgb/LinearRgb"
-import { CieLab } from "@monet-color/tools/lab/CieLab"
 import { ClipMethod } from "@monet-color/tools/gamut/LchGamut"
-import { Illuminants } from "@monet-color/tools/data/Illuminants"
 import { ColorScheme, ColorSwatch } from "./ColorScheme"
-import { MaterialYouTargets } from "./MaterialYouTargets"
+import { Shade } from "./MaterialYouTargets"
 
 /**
  * Hue shift for the tertiary accent color (accent3), in degrees.
@@ -18,45 +12,23 @@ import { MaterialYouTargets } from "./MaterialYouTargets"
  */
 const ACCENT3_HUE_SHIFT_DEGREES = 60.0
 
-export interface DynamicColorSchemeParameters {
-  targets: ColorScheme<Zcam>
-  seedColor: Color
-  chromaFactor?: number
-  cond: ViewingConditions
-  accurateShades?: boolean
-  complementColor?: Color | null
-}
-
 export class DynamicColorScheme extends ColorScheme<string> {
-  neutral1: ColorSwatch<string>
-  neutral2: ColorSwatch<string>
-  accent1: ColorSwatch<string>
-  accent2: ColorSwatch<string>
-  accent3: ColorSwatch<string>
+  public neutral1
+  public neutral2
 
-  targets: ColorScheme<Zcam>
-  seedColor: Color
-  chromaFactor: number
-  cond: ViewingConditions
-  accurateShades: boolean
-  complementColor: Color | null
+  public accent1
+  public accent2
+  public accent3
 
-  constructor({
-    targets,
-    seedColor,
-    chromaFactor = 1.0,
-    cond,
-    accurateShades = true,
-    complementColor = null,
-  }: DynamicColorSchemeParameters) {
+  constructor(
+    public targets: ColorScheme,
+    public seedColor: Color,
+    public chromaFactor = 1.0,
+    private cond: ViewingConditions,
+    private accurateShades = true,
+    public complementColor: Color | null = null,
+  ) {
     super()
-
-    this.targets = targets
-    this.seedColor = seedColor
-    this.chromaFactor = chromaFactor
-    this.cond = cond
-    this.accurateShades = accurateShades
-    this.complementColor = complementColor
 
     const seedNeutral = new Srgb(seedColor)
       .toLinear()
@@ -68,7 +40,7 @@ export class DynamicColorScheme extends ColorScheme<string> {
     const seedAccent = seedNeutral
     const seedAccent3: Zcam = new Zcam({
       ...seedAccent,
-      chroma: seedAccent.chroma * 0.7,
+      chroma: seedAccent.chroma * 0.8,
       hue: complementColor
         ? new Srgb(complementColor)
             .toLinear()
@@ -111,19 +83,19 @@ export class DynamicColorScheme extends ColorScheme<string> {
     )
   }
 
-  transformSwatch(
-    swatch: ColorSwatch<Zcam>,
+  private transformSwatch(
+    swatch: ColorSwatch,
     seed: Zcam,
-    referenceSwatch: ColorSwatch<Zcam>,
-  ): Map<number, string> {
-    const arr: [number, string][] = []
+    referenceSwatch: ColorSwatch,
+  ): Map<Shade, string> {
+    const arr: [Shade, string][] = []
 
     swatch.forEach((color, shade) => {
       const target = color
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const reference = referenceSwatch.get(shade)!
       const newLch = this.transformColor(target, seed, reference)
       const newSrgb = newLch.toSrgb()
-
       arr.push([shade, newSrgb.toHex()])
     })
 
@@ -162,61 +134,4 @@ export class DynamicColorScheme extends ColorScheme<string> {
       ? newColor.clipToLinearSrgb(ClipMethod.PRESERVE_LIGHTNESS)
       : newColor.clipToLinearSrgb(ClipMethod.ADAPTIVE_TOWARDS_MID, 5.0)
   }
-}
-
-const WHITE_LUMINANCE_MIN = 1.0
-const WHITE_LUMINANCE_MAX = 10000.0
-const WHITE_LUMINANCE_USER_MAX = 1000
-const WHITE_LUMINANCE_USER_STEP = 25 // both max and default must be divisible by this
-const WHITE_LUMINANCE_USER_DEFAULT = 425 + WHITE_LUMINANCE_USER_STEP * -9 // ~200.0 divisible by step (decoded = 199.526)
-
-function createZcamViewingConditions(whiteLuminance: number) {
-  return new ViewingConditions(
-    SURROUND_AVERAGE,
-    // sRGB
-    0.4 * whiteLuminance,
-    // Gray world
-    new CieLab(50.0, 0.0, 0.0).toXyz().y * whiteLuminance,
-    Illuminants.D65.toAbs(whiteLuminance),
-  )
-}
-
-function getWhiteLuminance(): number {
-  const userValue = WHITE_LUMINANCE_USER_DEFAULT
-  return parseWhiteLuminanceUser(userValue)
-}
-
-function parseWhiteLuminanceUser(userValue: number): number {
-  const userSrc = userValue / WHITE_LUMINANCE_USER_MAX
-  const userInv = 1.0 - userSrc
-  return Math.max(
-    Math.pow(10.0, userInv * Math.log10(WHITE_LUMINANCE_MAX)),
-    WHITE_LUMINANCE_MIN,
-  )
-}
-
-export const cond = createZcamViewingConditions(getWhiteLuminance())
-// console.log(cond);
-
-const targets = new MaterialYouTargets(1, false, cond)
-
-// console.log(targets);
-
-// export const scheme = new DynamicColorScheme({
-//   targets,
-//   seedColor: "#ff0000",
-//   cond,
-//   chromaFactor: 1,
-//   accurateShades: true,
-//   complementColor: null,
-// });
-
-export function createColorScheme(color: Color) {
-  return new DynamicColorScheme({
-    targets,
-    seedColor: color,
-    cond,
-    chromaFactor: 1,
-    accurateShades: true,
-  })
 }

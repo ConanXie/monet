@@ -1,19 +1,22 @@
-export type ColorSwatch<T> = Map<number, T>
+import { Zcam } from "@monet-color/tools/cam/Zcam"
+import { Shade } from "./MaterialYouTargets"
 
-export abstract class ColorScheme<T> {
-  abstract neutral1: ColorSwatch<T>
-  abstract neutral2: ColorSwatch<T>
+export type ColorSwatch<K = Shade, V = Zcam> = Map<K, V>
 
-  abstract accent1: ColorSwatch<T>
-  abstract accent2: ColorSwatch<T>
-  abstract accent3: ColorSwatch<T>
+export abstract class ColorScheme<V = Zcam, K = Shade> {
+  abstract neutral1: ColorSwatch<K, V>
+  abstract neutral2: ColorSwatch<K, V>
+
+  abstract accent1: ColorSwatch<K, V>
+  abstract accent2: ColorSwatch<K, V>
+  abstract accent3: ColorSwatch<K, V>
 
   // Helpers
-  get accentColors(): ColorSwatch<T>[] {
+  get accentColors(): ColorSwatch<K, V>[] {
     return [this.accent1, this.accent2, this.accent3]
   }
 
-  get neutralColors(): ColorSwatch<T>[] {
+  get neutralColors(): ColorSwatch<K, V>[] {
     return [this.neutral1, this.neutral2]
   }
 }

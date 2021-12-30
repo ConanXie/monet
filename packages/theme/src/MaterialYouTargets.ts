@@ -3,7 +3,28 @@ import { Srgb } from "@monet-color/tools/rgb/Srgb"
 import { CieLab } from "@monet-color/tools/lab/CieLab"
 import { ColorScheme, ColorSwatch } from "./ColorScheme"
 
-const LIGHTNESS: readonly [number, number][] = [
+/**
+ * from lightest to darkest
+ */
+export type Shade =
+  | 0
+  | 10
+  | 20
+  | 50
+  | 100
+  | 200
+  | 300
+  | 400
+  | 500
+  | 600
+  | 650
+  | 700
+  | 800
+  | 900
+  | 950
+  | 1000
+
+const SHADE_TO_LIGHTNESS: readonly [Shade, number][] = [
   [0, 100.0],
   [10, 99.0],
   [20, 98.0],
@@ -23,15 +44,15 @@ const LIGHTNESS: readonly [number, number][] = [
 ]
 
 /** Linear ZCAM lightness */
-export const LINEAR_LIGHTNESS_MAP = new Map<number, number>(LIGHTNESS)
+const LINEAR_LIGHTNESS_MAP = new Map<Shade, number>(SHADE_TO_LIGHTNESS)
 
 /** CIELAB lightness from AOSP defaults */
-export const CIELAB_LIGHTNESS_MAP = new Map<number, number>(
-  LIGHTNESS.map(([key, value]) => [key, value == 50.0 ? 49.6 : value]),
+const CIELAB_LIGHTNESS_MAP = new Map<Shade, number>(
+  SHADE_TO_LIGHTNESS.map(([key, value]) => [key, value == 50.0 ? 49.6 : value]),
 )
 
 /** Accent colors from Pixel defaults */
-export const REF_ACCENT1_COLORS = [
+const REF_ACCENT1_COLORS = [
   0xd3e3fd, 0xa8c7fa, 0x7cacf8, 0x4c8df6, 0x1b6ef3, 0x0b57d0, 0x0842a0,
   0x062e6f, 0x041e49,
 ]
@@ -43,28 +64,22 @@ const ACCENT1_REF_CHROMA_FACTOR = 1.2
  *
  * Derived from AOSP and Pixel defaults.
  */
-export class MaterialYouTargets extends ColorScheme<Zcam> {
-  neutral1: ColorSwatch<Zcam>
-  neutral2: ColorSwatch<Zcam>
-  accent1: ColorSwatch<Zcam>
-  accent2: ColorSwatch<Zcam>
-  accent3: ColorSwatch<Zcam>
+export class MaterialYouTargets extends ColorScheme {
+  public neutral1
+  public neutral2
 
-  cond: ViewingConditions
-
-  chromaFactor: number
+  public accent1
+  public accent2
+  public accent3
 
   constructor(
-    chromaFactor = 1,
+    public chromaFactor = 1,
+    public cond: ViewingConditions,
     useLinearLightness = false,
-    cond: ViewingConditions,
   ) {
     super()
 
-    this.chromaFactor = chromaFactor
-    this.cond = cond
-
-    const lightnessMap: Map<number, number> = useLinearLightness
+    const lightnessMap: Map<Shade, number> = useLinearLightness
       ? LINEAR_LIGHTNESS_MAP
       : this.calcCieLabLightnessMap()
 
@@ -90,8 +105,8 @@ export class MaterialYouTargets extends ColorScheme<Zcam> {
     this.accent3 = this.shadesWithChroma(accent3Chroma, lightnessMap)
   }
 
-  calcCieLabLightnessMap(): Map<number, number> {
-    const arr: [number, number][] = []
+  private calcCieLabLightnessMap(): Map<Shade, number> {
+    const arr: [Shade, number][] = []
 
     CIELAB_LIGHTNESS_MAP.forEach((value, key) =>
       arr.push([key, this.cielabL(value)]),
@@ -124,12 +139,12 @@ export class MaterialYouTargets extends ColorScheme<Zcam> {
 
   private shadesWithChroma(
     chroma: number,
-    lightnessMap: Map<number, number>,
-  ): ColorSwatch<Zcam> {
+    lightnessMap: Map<Shade, number>,
+  ): ColorSwatch {
     // Adjusted chroma
     const chromaAdj = chroma * this.chromaFactor
 
-    const arr: [number, Zcam][] = []
+    const arr: [Shade, Zcam][] = []
 
     lightnessMap.forEach((value, key) =>
       arr.push([
