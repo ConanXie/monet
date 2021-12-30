@@ -1,6 +1,6 @@
 {
   "name": "@monet-color/theme",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "author": "ConanXie",
   "license": "MIT",
   "description": "TypeScript implementation of Android 12 Material You dynamic theme engine (named Monet).",
