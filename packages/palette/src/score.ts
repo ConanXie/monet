@@ -1,3 +1,20 @@
+/**
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import { differenceDegrees, sanitizeDegrees } from "@monet-color/tools/math"
 import { Srgb } from "@monet-color/tools/rgb/Srgb"
 import { ViewingConditions, Zcam } from "@monet-color/tools/cam/Zcam"
@@ -29,7 +46,6 @@ export class Score {
     colorsToPopulation: Map<number, number>,
     cond: ViewingConditions,
   ): number[] {
-    // console.log(new Srgb(0xffffff).toZcam(cond));
     // Determine the total count of all colors.
     let populationSum = 0
     for (const population of colorsToPopulation.values()) {
@@ -95,7 +111,7 @@ export class Score {
     // console.log("colorsToScore", colorsToScore);
 
     // Remove colors that are unsuitable, ex. very dark or unchromatic colors.
-    // And sorted by colorfulness and lightness
+    // And sorted by colorfulness, lightness and score
     // Also, remove colors that are very similar in hue.
     const filteredColors = Score.filter(
       colorsToExcitedProportion,
@@ -117,7 +133,6 @@ export class Score {
     // return filteredColors;
     // console.log("filteredColors", filteredColors);
     const dedupedColorsToScore = new Map<number, number>()
-    let scoreSum = 0
     for (const color of filteredColors) {
       let duplicateHue = false
       const hue = colorsToCam.get(color)!.hue
@@ -131,7 +146,6 @@ export class Score {
       if (duplicateHue) {
         continue
       }
-      scoreSum += colorsToScore.get(color)!
       // console.log(colorsToCam.get(color));
       dedupedColorsToScore.set(color, colorsToScore.get(color)!)
     }
@@ -139,36 +153,13 @@ export class Score {
 
     // Ensure the list of colors returned is sorted such that the first in the
     // list is the most suitable, and the last is the least suitable.
-    // const colorsByScoreDescending = Array.from(dedupedColorsToScore.entries());
-    // colorsByScoreDescending.sort((first: number[], second: number[]) => {
-    //   return second[1] - first[1];
-    // });
+    const colorsByScoreDescending = Array.from(dedupedColorsToScore.entries())
+    colorsByScoreDescending.sort((first: number[], second: number[]) => {
+      return second[1] - first[1]
+    })
 
-    // const answer = colorsByScoreDescending.map((entry: number[]) => {
-    //   return entry[0];
-    // });
-    const answer = Array.from(dedupedColorsToScore.entries()).map(
-      (entry: number[]) => {
-        return entry[0]
-      },
-    )
-    answer.sort((c1, c2) => {
-      const { colorfulness: c1Colorfulness, lightness: c1Lightness } =
-        colorsToCam.get(c1)!
-      const { colorfulness: c2Colorfulness, lightness: c2Lightness } =
-        colorsToCam.get(c2)!
-      // console.log(
-      //   (c2Colorfulness / 60) * 0.7 + (c2Lightness / 100) * 0.3,
-      //   colorsToScore.get(c2)! / scoreSum
-      // );
-      return (
-        (c2Colorfulness / 60) * 0.7 +
-        (c2Lightness / 100) * 0.3 +
-        colorsToScore.get(c2)! / scoreSum -
-        ((c1Colorfulness / 60) * 0.7 +
-          (c1Lightness / 100) * 0.3 +
-          colorsToScore.get(c1)! / scoreSum)
-      )
+    const answer = colorsByScoreDescending.map((entry: number[]) => {
+      return entry[0]
     })
     // Ensure that at least one color is returned.
     if (answer.length === 0) {
@@ -177,7 +168,7 @@ export class Score {
         answer.push(filteredColors[0])
       } else {
         let maxScore = 0
-        let dominantColor
+        let dominantColor: number | undefined
         colorsToScore.forEach((score, color) => {
           if (score > maxScore) {
             maxScore = score
