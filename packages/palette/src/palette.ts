@@ -25,6 +25,7 @@ export function getPalette(
   const canvas = document.createElement("canvas")
   canvas.width = w
   canvas.height = h
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const ctx = canvas.getContext("2d")!
   ctx.drawImage(image, 0, 0, w, h)
 
