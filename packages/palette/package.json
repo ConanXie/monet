@@ -1,6 +1,6 @@
 {
   "name": "@monet-color/palette",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "author": "ConanXie",
   "license": "MIT",
   "description": "Get a palette from image quantization",
@@ -27,6 +27,6 @@
   },
   "peerDependencies": {
     "@monet-color/quantize": "^0.0.1-alpha.1",
-    "@monet-color/tools": "^0.0.1-alpha.2"
+    "@monet-color/tools": "^0.0.1-alpha.3"
   }
 }
