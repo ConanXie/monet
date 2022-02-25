@@ -75,7 +75,7 @@ export class Srgb implements Rgb {
 
   /** Clamp out-of-bounds values */
   quantize8(n: number): number {
-    return Math.round(n * 255) & 0xff
+    return Math.max(0, Math.min(Math.round(n * 255), 255))
   }
 
   /**
